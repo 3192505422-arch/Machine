@@ -1,0 +1,77 @@
+一、安装 Unity WebGL 模块
+1.1 打开 Unity Hub → 找到你的编辑器版本 → 点击齿轮图标 → 添加模块
+1.2 勾选 Web Build Support → 安装 → 重启 Unity
+
+二、切换平台并打开 Build Profiles
+2.1 菜单栏：File → Build Profiles
+2.2 选择 Web 平台 → 点击 Switch Profile（或 Switch Platform）
+
+三、修改关键设置（必须执行）
+3.1 压缩格式：
+路径：Edit → Project Settings → Player → Web → Publishing Settings
+将 Compression Format 改为 Disabled
+3.2 取消开发构建：
+回到 Build Profiles 窗口（Web 平台下）
+取消勾选 Development Build
+⚠️ 勾选 Development Build 会使压缩格式设置失效，导致导出的文件带 .br 后缀，itch.io 无法识别。
+
+四、导出项目
+4.1 在 Build Profiles 窗口点击 Build
+4.2 选择一个空文件夹（例如 WebBuild）→ 等待导出完成
+
+五、检查导出文件
+5.1 打开导出文件夹，应包含：
+index.html（文件名必须全小写）
+Build 文件夹（内含三个文件：.data、.framework.js、.wasm，没有 .br 或 .gz 后缀）
+TemplateData 文件夹（可选）
+
+六、打包为 ZIP
+6.1 选中 index.html、Build 文件夹（以及 TemplateData 如果有）
+6.2 右键 → 压缩为 .zip（不要用 .rar 或 .7z）
+6.3 压缩包打开后，第一层必须直接看到 index.html，不能有多余的文件夹
+
+七、创建 itch.io 项目
+7.1 登录 itch.io → 右上角头像 → Dashboard → Create new project
+7.2 Kind of project → 必须选择 HTML
+7.3 填写游戏名称、描述等基本信息
+
+八、上传并标记文件
+8.1 滚动到 Uploads 区域 → 上传你的 .zip 文件
+8.2 上传完成后，点击文件旁边的下拉菜单（默认显示 Executable）
+8.3 选择 HTML（或 Play in browser）—— 这一步非常重要，很多人漏掉！
+8.4 如果下拉菜单没有 HTML 选项，请检查：
+
+压缩包根目录是否有 index.html（注意大小写）
+Unity 导出时是否取消 Development Build 并禁用了压缩格式
+
+九、其他设置与发布
+9.1 Embed Options：推荐选择 Click to launch in fullscreen
+9.2 点击 Save 保存 → 项目页面会出现 Run Game 按钮
+
+十、UI 错位修复（适用于不同分辨率）
+添加 Canvas Scaler
+10.1 在 Unity 中打开场景，选中 Canvas 对象
+10.2 添加或修改 Canvas Scaler 组件，设置如下：
+
+UI Scale Mode：Scale With Screen Size
+
+Reference Resolution：1920 x 1080（或你开发时的分辨率）
+
+Screen Match Mode：Match Width Or Height
+
+Match：0.5
+
+十一、调整每个 UI 元素的锚点
+11.1 选中 UI 元素（按钮、图片等）
+11.2 在 Rect Transform 中点击锚点预设图标（四个小三角形）
+11.3 按住 Alt + Shift，点击对应的预设位置：
+
+左上角元素 → 锚点设为左上角
+
+底部按钮 → 锚点设为底部居中
+
+全屏背景 → 锚点设为拉伸（按住 Shift 点击右下角拉伸图标）
+
+测试适配
+12.1 Unity Game 视图：切换不同的分辨率预设（16:9、4:3、手机竖屏等）
+12.2 导出 WebGL 后，在浏览器按 F12 → 点击“设备模拟”图标，测试不同手机/屏幕尺寸
